@@ -122,9 +122,18 @@ in {
             "error log" = "syslog";
           };
         '';
-        };
+      };
+
+      enableAnalyticsReporting = mkOption {
+        type = types.bool;
+        default = true;
+        description = ''
+          Enable reporting of anonymous usage statistics to Netdata Inc. through
+          Google Analytics. See: <link xlink:href="https://learn.netdata.cloud/docs/agent/anonymous-statistics"/>
+        '';
       };
     };
+  };
 
   config = mkIf cfg.enable {
     assertions =
@@ -140,7 +149,9 @@ in {
       path = (with pkgs; [ curl gawk which ]) ++ lib.optional cfg.python.enable
         (pkgs.python3.withPackages cfg.python.extraPackages);
       serviceConfig = {
-        Environment="PYTHONPATH=${cfg.package}/libexec/netdata/python.d/python_modules";
+        Environment = [
+          "PYTHONPATH=${cfg.package}/libexec/netdata/python.d/python_modules"
+        ] ++ optional (!cfg.enableAnalyticsReporting) "DO_NOT_TRACK=1";
         ExecStart = "${cfg.package}/bin/netdata -P /run/netdata/netdata.pid -D -c ${configFile}";
         ExecReload = "${pkgs.utillinux}/bin/kill -s HUP -s USR1 -s USR2 $MAINPID";
         TimeoutStopSec = 60;
