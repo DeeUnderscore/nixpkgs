@@ -19612,6 +19612,8 @@ with pkgs;
 
   subdl = callPackage ../applications/video/subdl { };
 
+  subtitlecomposer = libsForQt5.callPackage ../applications/video/subtitlecomposer { };
+
   subtitleeditor = callPackage ../applications/video/subtitleeditor { enchant = enchant1; };
 
   suil = callPackage ../development/libraries/audio/suil { };
