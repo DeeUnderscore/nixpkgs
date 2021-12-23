@@ -6021,6 +6021,8 @@ with pkgs;
 
   gource = callPackage ../applications/version-management/gource { };
 
+  gourmand = callPackage ../applications/misc/gourmand { };
+
   govc = callPackage ../tools/virtualization/govc { };
 
   goverlay = callPackage ../tools/graphics/goverlay {
