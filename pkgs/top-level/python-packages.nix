@@ -7186,6 +7186,8 @@ in {
 
   pyramid_multiauth = callPackage ../development/python-modules/pyramid_multiauth { };
 
+  pyrdfa3 = callPackage ../development/python-modules/pyrdfa3 { };
+
   pyreadability = callPackage ../development/python-modules/pyreadability { };
 
   pyrealsense2 = toPythonModule (pkgs.librealsense.override {
