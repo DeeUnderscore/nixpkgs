@@ -3666,6 +3666,8 @@ in {
 
   hstspreload = callPackage ../development/python-modules/hstspreload { };
 
+  html-text = callPackage ../development/python-modules/html-text { };
+
   html2text = callPackage ../development/python-modules/html2text { };
 
   html5lib = callPackage ../development/python-modules/html5lib { };
