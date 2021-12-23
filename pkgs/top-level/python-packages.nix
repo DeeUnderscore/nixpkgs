@@ -4151,6 +4151,8 @@ in {
 
   jsonstreams = callPackage ../development/python-modules/jsonstreams { };
 
+  jstyleson = callPackage ../development/python-modules/jstyleson { };
+
   jug = callPackage ../development/python-modules/jug { };
 
   junitparser = callPackage ../development/python-modules/junitparser { };
