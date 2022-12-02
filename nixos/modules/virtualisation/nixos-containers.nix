@@ -346,6 +346,8 @@ let
 
   mkBindFlags = bs: concatMapStrings mkBindFlag (lib.attrValues bs);
 
+  mkCredentialFlags = creds: concatStrings (mapAttrsToList (n: p: " --load-credential=${n}:${p}") creds);
+
   networkOptions = {
     hostBridge = mkOption {
       type = types.nullOr types.str;
@@ -681,6 +683,19 @@ in
               '';
             };
 
+            credentials = mkOption {
+              type = with types; attrsOf path;
+              default = {};
+              example = { some_secret = "/run/secrets/some_secret"; };
+              description = lib.mdDoc ''
+                Secrets to pass to the container using systemd's credential facilities.
+
+                The contents of files at the given paths will be made available to systemd services
+                inside the container, accessible via `LoadCredential=`. For more details
+                see <https://systemd.io/CREDENTIALS/>.
+              '';
+            };
+
             extraFlags = mkOption {
               type = types.listOf types.str;
               default = [];
@@ -853,6 +868,7 @@ in
               AUTO_START=1
             ''}
             EXTRA_NSPAWN_FLAGS="${mkBindFlags cfg.bindMounts +
+              mkCredentialFlags cfg.credentials +
               optionalString (cfg.extraFlags != [])
                 (" " + concatStringsSep " " cfg.extraFlags)}"
           '';
